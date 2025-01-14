@@ -2,16 +2,16 @@
 
 import React, { FC } from "react";
 import UnauthorizedState from "./UnauthorizedState";
-import { useWallet } from "@jup-ag/wallet-adapter";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const ProtectedRoute: FC<Props> = ({ children }) => {
-  const { publicKey } = useWallet();
+  const { address } = useAppKitAccount();
 
-  if (!publicKey) {
+  if (!address) {
     return <UnauthorizedState />;
   }
 

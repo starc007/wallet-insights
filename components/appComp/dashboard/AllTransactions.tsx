@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import BarLoader from "../common/BarLoader";
 import { rasters } from "@/assets";
 import Image from "next/image";
-import { useWallet } from "@jup-ag/wallet-adapter";
+import { useAppKitAccount } from "@reown/appkit/react";
 import { getAllTransactions } from "@/api/api";
 import TransactionTable from "./TransactionTable";
 
@@ -42,19 +42,19 @@ const CustomizedToolTip = (props: any) => {
 };
 
 const AllTransactions = () => {
-  const { publicKey } = useWallet();
+  const { address } = useAppKitAccount();
   const { nftData } = useDataContext();
   const [transaction, setTransaction] = React.useState<ITransaction[] | []>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const getTransaction = async () => {
     setLoading(true);
-    const response = await getAllTransactions(publicKey?.toString()!);
+    const response = await getAllTransactions(address!);
     setLoading(false);
     if (response) {
       const transaction = response.map((transaction: any) => {
         const findChange = transaction.accountData.find(
-          (accountData: any) => accountData.account === publicKey?.toString()
+          (accountData: any) => accountData.account === address
         );
         return {
           signature: transaction.signature,
@@ -85,7 +85,7 @@ const AllTransactions = () => {
 
   useEffect(() => {
     getTransaction();
-  }, [publicKey]);
+  }, [address]);
 
   return loading ? (
     <div className="mt-5">

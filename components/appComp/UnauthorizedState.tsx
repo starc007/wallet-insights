@@ -1,8 +1,9 @@
 import React from "react";
-import { UnifiedWalletButton } from "@jup-ag/wallet-adapter";
+import { useAppKit } from "@reown/appkit/react";
 import { Button } from "../UI";
 
 const UnauthorizedState = () => {
+  const { open } = useAppKit();
   return (
     <div className="max-w-lg mx-auto h-96 border border-gray-100 mt-20 rounded-3xl py-6 px-12 bg-gray-50">
       <div className="flex flex-col items-center justify-center h-full">
@@ -39,12 +40,9 @@ const UnauthorizedState = () => {
         <p className="text-center text-gray-300 mt-4">
           Please connect your wallet to see some magic!
         </p>
-        <UnifiedWalletButton
-          overrideContent={
-            <Button className="mt-5 !h-11">Connect Wallet</Button>
-          }
-          currentUserClassName="border !rounded-md !h-11"
-        />
+        <Button className="mt-5 !h-11" onClick={() => open()}>
+          Connect Wallet
+        </Button>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useWallet } from "@jup-ag/wallet-adapter";
+import { useAppKitAccount } from "@reown/appkit/react";
 import {
   getAllNFTs,
   getAllTokens,
@@ -57,7 +57,7 @@ export const useDataContext = () => useContext(DataContext);
 export const DataContextProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { publicKey } = useWallet();
+  const { address } = useAppKitAccount();
   const [nftData, setNftData] = useState<NftData>(initialState.nftData);
   const [tokensData, setTokensData] = useState<any>(initialState.tokensData);
   const [isError, setIsError] = useState(false);
@@ -98,8 +98,8 @@ export const DataContextProvider: FC<{ children: ReactNode }> = ({
   const parallelFetch = async () => {
     setIsLoading(true);
     const [nftData, tokensDataInfo] = await Promise.all([
-      getAllNFTs(publicKey?.toString()!),
-      getAllTokens(publicKey?.toString()!),
+      getAllNFTs(address!),
+      getAllTokens(address!),
     ]);
     setIsLoading(false);
 
@@ -139,7 +139,7 @@ export const DataContextProvider: FC<{ children: ReactNode }> = ({
 
       parallelFetch();
     }
-  }, [isFetched, publicKey]);
+  }, [isFetched, address]);
 
   return (
     <DataContext.Provider

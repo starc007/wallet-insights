@@ -1,6 +1,6 @@
 import { useDataContext } from "@/context/DataContext";
 import { formatLamports, shortenAddress } from "@/utils/utils";
-import { useWallet } from "@jup-ag/wallet-adapter";
+import { useAppKitAccount } from "@reown/appkit/react";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -28,7 +28,7 @@ const clrs: Record<string, { bg: string; text: string }> = {
 };
 
 const TransactionTable: FC<ITransactionTable> = ({ transactions }) => {
-  const { publicKey } = useWallet();
+  const { address } = useAppKitAccount();
   const { nftData } = useDataContext();
   return (
     <div className="px-4 sm:px-0">
@@ -89,9 +89,9 @@ const TransactionTable: FC<ITransactionTable> = ({ transactions }) => {
                           >
                             {tr.type}
                           </div>
-                          {tr.description.includes(publicKey?.toString()!) ? (
+                          {tr.description.includes(address!) ? (
                             <div className="font-medium mt-1">
-                              {tr.description.split(publicKey?.toString()!)[1]}
+                              {tr.description.split(address!)[1]}
                             </div>
                           ) : null}
                         </td>

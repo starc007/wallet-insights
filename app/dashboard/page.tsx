@@ -8,7 +8,7 @@ import {
 } from "@/components/appComp/dashboard";
 import { DataContextProvider } from "@/context/DataContext";
 import { shortenAddress } from "@/utils/utils";
-import { useWallet } from "@jup-ag/wallet-adapter";
+import { useAppKitAccount } from "@reown/appkit/react";
 import React from "react";
 
 const tabList = [
@@ -27,12 +27,12 @@ const tabList = [
 ];
 
 const Dashboard = () => {
-  const { publicKey } = useWallet();
+  const { address } = useAppKitAccount();
   return (
     <DataContextProvider>
       <div className="max-w-6xl mx-auto my-10 lg:px-10">
         <h2 className="text-3xl font-semibold">
-          Gm, {shortenAddress(publicKey?.toString()!)}
+          Gm, {shortenAddress(address!)}
         </h2>
         <h2 className="text-xl mt-10 font-semibold text-primary/60">
           wallet overview

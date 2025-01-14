@@ -3,28 +3,24 @@ import { rasters } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { useWallet, UnifiedWalletButton } from "@jup-ag/wallet-adapter";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 
-import {
-  Button,
-  DropDownButton,
-  DropDownContent,
-  Dropdown,
-  DropdownItem,
-} from "../UI";
+import { Button } from "../UI";
 
 import { useRouter, usePathname } from "next/navigation";
+import { shortenAddress } from "@/utils/utils";
 
 const Navbar = () => {
   const router = useRouter();
-  const { publicKey } = useWallet();
+  const { address, isConnected } = useAppKitAccount();
   const pathname = usePathname();
+  const { open } = useAppKit();
 
   useEffect(() => {
-    if (publicKey && pathname !== "/dashboard") {
+    if (address && pathname !== "/dashboard") {
       router.push("/dashboard");
     }
-  }, [publicKey, pathname]);
+  }, [address, pathname]);
 
   return (
     <nav className="glass_bg px-4 border-b border-gray-50 h-16 flex items-center sticky top-0 z-20">
@@ -40,22 +36,12 @@ const Navbar = () => {
           <span className="text-xl font-semibold">walletwit</span>
         </Link>
         <div className="flex items-center gap-2">
-          {/* <Button
-            onClick={() => {
-              // if (connecting) {
-              //   return;
-              // }
-              // connect();
-              handleClick();
-            }}
-            variant="special"
+          <Button
+            variant={isConnected ? "outline" : "special"}
+            onClick={() => open()}
           >
-            connect wallet
-          </Button> */}
-          <UnifiedWalletButton
-            overrideContent={<Button variant="special">connect wallet</Button>}
-            currentUserClassName="border !rounded-md !h-9"
-          />
+            {isConnected ? shortenAddress(address!) : "connect wallet"}
+          </Button>
         </div>
       </div>
     </nav>
