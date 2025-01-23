@@ -1,5 +1,5 @@
 "use client";
-import { Tabs } from "@/components";
+import { LineTabs, Tabs } from "@/components";
 import {
   AllNfts,
   AllTokens,
@@ -9,7 +9,7 @@ import {
 import { DataContextProvider } from "@/context/DataContext";
 import { shortenAddress } from "@/utils/utils";
 import { useAppKitAccount } from "@reown/appkit/react";
-import React from "react";
+import React, { useState } from "react";
 import TrackWallet from "@/components/appComp/dashboard/TrackWallet";
 
 const innerTabList = [
@@ -27,34 +27,36 @@ const innerTabList = [
   },
 ];
 
-const tabList = [
-  {
-    title: "Home",
-    content: (
-      <div>
-        <Overview />
-        <div className="mt-10">
-          <Tabs tabList={innerTabList} />
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Track",
-    content: <TrackWallet />,
-  },
-];
-
 const Dashboard = () => {
   const { address } = useAppKitAccount();
+  const [activeTab, setActiveTab] = useState(0);
+
+  const tabList = [
+    {
+      title: "Home",
+      content: (
+        <div>
+          <Overview />
+          <div className="mt-10">
+            <Tabs tabList={innerTabList} />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Track",
+      content: <TrackWallet />,
+    },
+  ];
+
   return (
-    <DataContextProvider>
+    <DataContextProvider overrideAddress={address}>
       <div className="max-w-6xl mx-auto my-10 lg:px-10">
         <h2 className="text-3xl font-semibold">
           Gm, {shortenAddress(address!)}
         </h2>
         <div className="mt-10">
-          <Tabs tabList={tabList} />
+          <LineTabs tabList={tabList} onTabChange={setActiveTab} />
         </div>
       </div>
     </DataContextProvider>

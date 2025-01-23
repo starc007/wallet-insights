@@ -47,7 +47,7 @@ const Modal: FC<Props> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background-dark/40 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
           />
           <div className="fixed inset-0 z-10 flex items-center justify-center p-4">
             <DialogPanel
@@ -56,7 +56,7 @@ const Modal: FC<Props> = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               className={clsx(
-                "rounded-xl overflow-hidden p-2 backdrop-blur-2xl duration-300 ease-out relative max-w-lg w-full bg-background-dark border border-border",
+                "rounded-xl overflow-hidden p-2 backdrop-blur-2xl duration-300 ease-out relative max-w-lg w-full bg-white border border-border",
                 modalClassName
               )}
             >

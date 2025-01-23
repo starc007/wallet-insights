@@ -7,8 +7,7 @@ import {
   Overview,
 } from "@/components/appComp/dashboard";
 import { Tabs } from "@/components";
-import { useEffect, useState } from "react";
-import { useTrackedWallets } from "@/hooks/useTrackedWallets";
+import { useTrackedWalletsContext } from "@/context/TrackedWalletsContext";
 import { useAppKitAccount } from "@reown/appkit/react";
 
 const tabList = [
@@ -28,14 +27,13 @@ const tabList = [
 
 const TrackedWalletDetail = ({ params }: { params: { address: string } }) => {
   const { address } = params;
-  const { address: userAddress } = useAppKitAccount();
-  const { trackedWallets } = useTrackedWallets(userAddress);
+  const { trackedWallets } = useTrackedWalletsContext();
   const walletInfo = trackedWallets.find(
     (wallet) => wallet.address === address
   );
 
   return (
-    <DataContextProvider>
+    <DataContextProvider overrideAddress={address}>
       <div className="max-w-6xl mx-auto my-10 lg:px-10">
         <div className="flex items-center justify-between">
           <div>

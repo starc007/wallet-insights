@@ -1,21 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/UI";
 import { Input } from "@/components/UI";
-import { useAppKitAccount } from "@reown/appkit/react";
 import { shortenAddress } from "@/utils/utils";
 import Image from "next/image";
 import { rasters } from "@/assets";
 import Link from "next/link";
-import { useTrackedWallets } from "@/hooks/useTrackedWallets";
+
 import toast from "react-hot-toast";
+import { Modal } from "@/components/UI/Modal";
+import { AddCircleIcon } from "hugeicons-react";
+import { useTrackedWalletsContext } from "@/context/TrackedWalletsContext";
+import { useDataContext } from "@/context/DataContext";
+import { useTrackedWallets } from "@/hooks/useTrackedWallets";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 const TrackWallet = () => {
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    trackedWallets,
+    addWallet,
+    removeWallet,
+    isLoading,
+    calculatePortfolio,
+  } = useTrackedWalletsContext();
+  const { fetchWalletData } = useDataContext();
   const { address: userAddress } = useAppKitAccount();
-  const { trackedWallets, addWallet, removeWallet } =
-    useTrackedWallets(userAddress);
+  const { updateWalletPortfolio } = useTrackedWallets(userAddress);
+
+  useEffect(() => {
+    const updatePortfolios = async () => {
+      if (trackedWallets.length > 0) {
+        setLoading(true);
+        try {
+          await Promise.all(
+            trackedWallets.map(async (wallet) => {
+              const data = await fetchWalletData(wallet.address);
+              const portfolio = calculatePortfolio(
+                data.tokensPrices,
+                data.tokensInfo
+              );
+              const totalValue =
+                portfolio + data.nftData?.nativeBalance?.total_price;
+              updateWalletPortfolio(wallet.id, totalValue);
+            })
+          );
+        } catch (error) {
+          console.error("Error updating portfolios:", error);
+        }
+        setLoading(false);
+      }
+    };
+
+    updatePortfolios();
+  }, []);
 
   const handleTrack = async () => {
     if (!address || !name) return;
@@ -25,6 +65,7 @@ const TrackWallet = () => {
       await addWallet(address, name);
       setAddress("");
       setName("");
+      setIsModalOpen(false);
       toast.success("Wallet tracked successfully!");
     } catch (error) {
       console.error("Error tracking wallet:", error);
@@ -35,37 +76,57 @@ const TrackWallet = () => {
 
   return (
     <div className="mt-5">
-      <div className="max-w-2xl">
-        <h2 className="text-xl font-medium text-primary/50 mb-5">
-          Track Other Wallets
-        </h2>
-        <div className="flex flex-col gap-4">
-          <Input
-            placeholder="Enter wallet address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <Input
-            placeholder="Enter name for this wallet"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Button
-            onClick={handleTrack}
-            disabled={!address || !name || loading}
-            showloading={loading}
-          >
-            Track Wallet
-          </Button>
-        </div>
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-medium text-primary/50">Tracked Wallets</h2>
+        <Button
+          variant="special"
+          onClick={() => setIsModalOpen(true)}
+          lefticon={<AddCircleIcon size={20} />}
+        >
+          Track New Wallet
+        </Button>
       </div>
 
-      <div className="mt-10">
-        <h2 className="text-xl font-medium text-primary/50 mb-5">
-          Tracked Wallets
-        </h2>
+      <Modal
+        isOpen={isModalOpen}
+        close={() => setIsModalOpen(false)}
+        title="Track New Wallet"
+        showCloseButton
+      >
+        <div className="mt-5">
+          <div className="flex flex-col gap-4">
+            <Input
+              placeholder="Enter wallet address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <Input
+              placeholder="Enter name for this wallet"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Button
+              onClick={handleTrack}
+              disabled={!address || !name || loading}
+              showloading={loading}
+              className="w-full"
+            >
+              Track Wallet
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      <div className="mt-5">
+        {(loading || isLoading) && trackedWallets.length > 0 && (
+          <div className="flex justify-center mb-4">
+            <div className="animate-pulse text-sm text-gray-500">
+              Updating portfolios...
+            </div>
+          </div>
+        )}
         {trackedWallets.length === 0 ? (
-          <div className="max-w-lg flex flex-col items-center justify-center border-2 border-gray-100 bg-gray-50 rounded-2xl h-48">
+          <div className="max-w-lg mx-auto mt-24 flex flex-col items-center justify-center border-2 border-gray-100 bg-gray-50 rounded-2xl h-48">
             <Image src={rasters.wallet} alt="wallet" className="w-16 h-16" />
             <p className="text-primaryLight font-medium mt-5 text-lg">
               No wallets tracked yet

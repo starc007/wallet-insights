@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import ProtectedRoute from "@/components/appComp/ProtectedRoute";
+import { TrackedWalletsProvider } from "@/context/TrackedWalletsContext";
+
 export const metadata: Metadata = {
   title: "walletwit: Your account analytics",
   description:
@@ -9,10 +11,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+}) {
+  return (
+    <TrackedWalletsProvider>
+      <ProtectedRoute>{children}</ProtectedRoute>
+    </TrackedWalletsProvider>
+  );
 }
