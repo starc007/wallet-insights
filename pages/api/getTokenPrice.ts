@@ -7,7 +7,7 @@ export default async function handler(
   const { tokenAddress } = req.body;
 
   const commaSeparatedTokenAddresses = tokenAddress.join(",");
-  const url = `https://price.jup.ag/v6/price?ids=${commaSeparatedTokenAddresses}`;
+  const url = `https://api.jup.ag/price/v2?ids=${commaSeparatedTokenAddresses}`;
   try {
     const response = await fetch(url);
     console.log("response", response);

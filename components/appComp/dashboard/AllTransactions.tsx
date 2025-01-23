@@ -3,7 +3,7 @@ import BarLoader from "../common/BarLoader";
 import { rasters } from "@/assets";
 import Image from "next/image";
 import { useAppKitAccount } from "@reown/appkit/react";
-import { getAllTransactions } from "@/api/api";
+import { getAllTransactions } from "@/apiRoutes/api";
 import TransactionTable from "./TransactionTable";
 
 import {

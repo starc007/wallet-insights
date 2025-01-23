@@ -15,7 +15,7 @@ import {
   getAllTokens,
   getTokenInfo,
   getTokenPrice,
-} from "@/api/api";
+} from "@/apiRoutes/api";
 
 interface DataContextProps {
   nftData: NftData;

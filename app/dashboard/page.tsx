@@ -10,8 +10,9 @@ import { DataContextProvider } from "@/context/DataContext";
 import { shortenAddress } from "@/utils/utils";
 import { useAppKitAccount } from "@reown/appkit/react";
 import React from "react";
+import TrackWallet from "@/components/appComp/dashboard/TrackWallet";
 
-const tabList = [
+const innerTabList = [
   {
     title: "Tokens",
     content: <AllTokens />,
@@ -26,6 +27,24 @@ const tabList = [
   },
 ];
 
+const tabList = [
+  {
+    title: "Home",
+    content: (
+      <div>
+        <Overview />
+        <div className="mt-10">
+          <Tabs tabList={innerTabList} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    title: "Track",
+    content: <TrackWallet />,
+  },
+];
+
 const Dashboard = () => {
   const { address } = useAppKitAccount();
   return (
@@ -34,10 +53,6 @@ const Dashboard = () => {
         <h2 className="text-3xl font-semibold">
           Gm, {shortenAddress(address!)}
         </h2>
-        <h2 className="text-xl mt-10 font-semibold text-primary/60">
-          wallet overview
-        </h2>
-        <Overview />
         <div className="mt-10">
           <Tabs tabList={tabList} />
         </div>

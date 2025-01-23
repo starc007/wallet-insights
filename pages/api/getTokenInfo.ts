@@ -1,6 +1,4 @@
-import { heliusServerClient } from "@/utils/helius/serverClient";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getTokenInfo } from "../../api/api";
 
 export default async function handler(
   req: NextApiRequest,
