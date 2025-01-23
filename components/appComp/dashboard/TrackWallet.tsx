@@ -13,6 +13,7 @@ import { useTrackedWalletsContext } from "@/context/TrackedWalletsContext";
 import { useDataContext } from "@/context/DataContext";
 import { useTrackedWallets } from "@/hooks/useTrackedWallets";
 import { useAppKitAccount } from "@reown/appkit/react";
+import { Shimmer } from "@/components/UI/Shimmer";
 
 const TrackWallet = () => {
   const [address, setAddress] = useState("");
@@ -118,13 +119,6 @@ const TrackWallet = () => {
       </Modal>
 
       <div className="mt-5">
-        {(loading || isLoading) && trackedWallets.length > 0 && (
-          <div className="flex justify-center mb-4">
-            <div className="animate-pulse text-sm text-gray-500">
-              Updating portfolios...
-            </div>
-          </div>
-        )}
         {trackedWallets.length === 0 ? (
           <div className="max-w-lg mx-auto mt-24 flex flex-col items-center justify-center border-2 border-gray-100 bg-gray-50 rounded-2xl h-48">
             <Image src={rasters.wallet} alt="wallet" className="w-16 h-16" />
@@ -168,9 +162,13 @@ const TrackWallet = () => {
                 </div>
                 <div className="mt-4">
                   <p className="text-sm text-gray-500">Portfolio Value</p>
-                  <p className="text-xl font-semibold">
-                    ${wallet.portfolio.toFixed(2)}
-                  </p>
+                  {loading || isLoading ? (
+                    <Shimmer className="h-8 w-32" />
+                  ) : (
+                    <p className="text-xl font-semibold">
+                      ${wallet.portfolio.toFixed(2)}
+                    </p>
+                  )}
                 </div>
               </Link>
             ))}

@@ -112,8 +112,6 @@ export const DataContextProvider: FC<{
         getAllNFTs(walletAddress),
         getAllTokens(walletAddress),
       ]);
-      console.log("nftData", nftData);
-      console.log("tokensDataInfo", tokensDataInfo);
 
       let prices = {};
       let tokensInfoData: IToken[] = [];
