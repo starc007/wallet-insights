@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@headlessui/react": "^2.1.2",
     "@reown/appkit": "^1.6.4",
     "@reown/appkit-adapter-solana": "^1.6.4",

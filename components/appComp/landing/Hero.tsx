@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/UI";
 import AnimatedShinyText from "../AnimatedShinyText";
 import { useAppKit } from "@reown/appkit/react";
+
 const Hero = () => {
   const { open } = useAppKit();
   return (
@@ -21,22 +22,22 @@ const Hero = () => {
           }
         >
           <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300">
-            <span>✨ introducing walletWit</span>
+            <span>✨ AI-Powered Wallet Analytics</span>
           </AnimatedShinyText>
         </div>
         <h1 className="sm:text-7xl text-5xl font-bold text-primary mt-3">
-          Hilarious insights
+          Track & Analyze
           <span className="md:block mt-2">
             <span className="bg-gradient-to-r from-neutral-400 via-primary/80 to-neutral-500 text-transparent bg-clip-text">
-              serious results.
+              with AI insights.
             </span>
           </span>
         </h1>
         <p className="text-gray-400 text-sm mt-4">
-          Smart crypto analytics with a humorous twist. Track transactions,
-          balances,
+          Monitor multiple wallets, track portfolios, and get AI-powered
+          analysis
           <span className="md:block">
-            and more in a fun and simplified way.
+            of trading patterns and investment strategies.
           </span>
         </p>
         <div className="flex flex-wrap justify-center gap-5 mt-8">

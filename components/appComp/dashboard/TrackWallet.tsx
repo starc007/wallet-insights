@@ -45,6 +45,7 @@ const TrackWallet = () => {
               );
               const totalValue =
                 portfolio + data.nftData?.nativeBalance?.total_price;
+
               updateWalletPortfolio(wallet.id, totalValue);
             })
           );
@@ -56,7 +57,7 @@ const TrackWallet = () => {
     };
 
     updatePortfolios();
-  }, []);
+  }, [trackedWallets?.length]);
 
   const handleTrack = async () => {
     if (!address || !name) return;
@@ -64,6 +65,18 @@ const TrackWallet = () => {
     setLoading(true);
     try {
       await addWallet(address, name);
+
+      // Fetch and update portfolio for the new wallet immediately
+      const data = await fetchWalletData(address);
+      const portfolio = calculatePortfolio(data.tokensPrices, data.tokensInfo);
+      const totalValue = portfolio + data.nftData?.nativeBalance?.total_price;
+
+      // Find the newly added wallet and update its portfolio
+      const newWallet = trackedWallets.find((w) => w.address === address);
+      if (newWallet) {
+        updateWalletPortfolio(newWallet.id, totalValue);
+      }
+
       setAddress("");
       setName("");
       setIsModalOpen(false);
@@ -73,6 +86,13 @@ const TrackWallet = () => {
       toast.error("Failed to track wallet");
     }
     setLoading(false);
+  };
+
+  const handleRemoveWallet = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removeWallet(id);
+    toast.success("Wallet removed from tracking");
   };
 
   return (
@@ -130,12 +150,12 @@ const TrackWallet = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {trackedWallets.map((wallet) => (
               <Link
-                href={`/dashboard/track/${wallet.address}`}
                 key={wallet.id}
-                className="group border border-gray-100 rounded-xl p-5 hover:bg-gray-50 transition duration-300"
+                href={`/dashboard/track/${wallet.address}`}
+                className="block group border border-gray-100 rounded-xl p-5 hover:bg-gray-50 transition duration-300"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-1">
                     <Image
                       src={rasters.wallet}
                       alt="wallet"
@@ -151,11 +171,7 @@ const TrackWallet = () => {
                   <Button
                     variant="ghost"
                     className="opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      removeWallet(wallet.id);
-                      toast.success("Wallet removed from tracking");
-                    }}
+                    onClick={(e) => handleRemoveWallet(e, wallet.id)}
                   >
                     <span className="text-red-500">Remove</span>
                   </Button>

@@ -1,61 +1,66 @@
-import { rasters } from "@/assets";
-import Image from "next/image";
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
+import { BrainIcon, Wallet01Icon, ChartIcon } from "hugeicons-react";
 
-const FeaturesData = [
+const features = [
   {
-    title: "Real-Time Portfolio Insights",
-    icon: rasters.wallet,
+    title: "AI Analysis",
     description:
-      "Get an instant overview of your crypto holdings, including detailed breakdowns of coins and NFTs. Visualize your portfolio distribution and performance with interactive charts.",
+      "Get intelligent insights about wallet activity, trading patterns, and portfolio composition powered by advanced AI.",
+    icon: <BrainIcon size={24} />,
   },
   {
-    title: "Comprehensive Transaction History",
-    icon: rasters.transaction,
+    title: "Multi-Wallet Tracking",
     description:
-      "Access a complete log of all your wallet transactions. Categorized and detailed views help you understand your spending habits and transaction patterns effortlessly.",
+      "Track and monitor multiple wallets in one place. Keep an eye on portfolios, NFTs, and transactions across different addresses.",
+    icon: <Wallet01Icon size={24} />,
   },
   {
-    title: "NFT Gallery and Analytics",
-    icon: rasters.nft,
+    title: "Portfolio Analytics",
     description:
-      "Explore your NFT collection in a stunning gallery format. View rarity scores, value estimations, and performance trends to stay ahead in the NFT market.",
-  },
-  {
-    title: "Customizable Alerts and Notifications",
-    icon: rasters.notification,
-    description:
-      "Set up personalized alerts for significant transactions, price changes, or portfolio value milestones. Never miss an important update with our real-time notifications.",
+      "Comprehensive portfolio analysis with real-time token prices, NFT valuations, and historical performance tracking.",
+    icon: <ChartIcon size={24} />,
   },
 ];
 
 const Feature = () => {
   return (
-    <div className="my-10">
-      <h2 className="text-3xl font-bold text-center">Features</h2>
-      <p className="text-sm text-gray-400 mt-2 text-center">
-        best cryptocurrency portfolio management tool for your needs.
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 lg:px-32 md:px-20">
-        {FeaturesData.map((feature, index) => (
-          <div
-            key={index}
-            className="flex flex-col rounded-3xl border border-gray-100 p-6 bg-gradient-to-br from-white via-white to-primary/5"
-          >
-            <div>
-              <Image
-                src={feature.icon}
-                alt="feature icon"
-                width={40}
-                height={40}
-              />
-            </div>
-            <h3 className="text-xl font-bold mb-2 mt-4">{feature.title}</h3>
-            <p className="text-sm text-gray-400">{feature.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+    <section className="py-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-6xl mx-auto px-4"
+      >
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-primary mb-4">
+            Powerful Features
+          </h2>
+          <p className="text-gray-500">
+            Everything you need to track and analyze wallets intelligently
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="p-6 rounded-2xl border border-gray-100 hover:bg-gray-50 transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-primary">{feature.icon}</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-500 text-sm">{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
   );
 };
 
