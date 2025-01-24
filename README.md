@@ -1,22 +1,71 @@
-# <p align="center">walletwit</p>
+# WalletScope
 
-Smart crypto analytics with a humorous twist. Track transactions, balances,
-and more in a fun and simplified way.
+WalletScope is an AI-powered wallet analytics platform for Solana, offering comprehensive portfolio tracking and intelligent insights through advanced analysis.
 
-Demo : [https://walletwit.vercel.app/](https://walletwit.vercel.app/)
+![WalletScope Screenshot](screenshot.png)
 
-## 🛠️ How to run
+## Features
 
-1. create `.env` file in your root directory
-2. copy the `.env.example` content to `.env` file
-3. replace the `NEXT_PUBLIC_HELIUS_KEY` value with your helius key
-4. run `npm install` or `yarn` to install project dependencies
-5. run `npm run dev` or `yarn run dev` to launch the project
+### 🧠 AI-Powered Analysis
 
-## Imrovement
+- Intelligent wallet activity analysis
+- Trading pattern recognition
+- Portfolio composition insights
+- Risk assessment and recommendations
+- Powered by Google's Gemini AI
 
-1. Add polling to fetch data periodically
-2. Add pagination in Nfts & transaction tabs
-3. Add NFT detail page
-4. Add more charts
-5. Add swap functionality, so that user don't have to go to other websites to swap
+### 👛 Multi-Wallet Tracking
+
+- Track multiple wallets simultaneously
+- Real-time portfolio monitoring
+- NFT collection tracking
+- Transaction history visualization
+- Comprehensive wallet overview
+
+### 📊 Portfolio Analytics
+
+- Real-time token price tracking
+- NFT valuations
+- Historical performance tracking
+- Portfolio composition breakdown
+- Transaction analytics
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React, TypeScript, TailwindCSS
+- **AI**: Google Gemini AI
+- **Blockchain**: Solana
+- **Authentication**: Reown AppKit
+- **Styling**: Framer Motion, Hugeicons
+- **State Management**: React Context
+- **Data Fetching**: REST APIs
+
+## Getting Started
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/starc007/wallet-insights.git
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up environment variables: (create a .env file in the root directory)
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+NEXT_PUBLIC_REOWN_PROJECT_ID=your_reown_project_id
+NEXT_PUBLIC_HELIUS_KEY=your_helius_api_key
+```
+
+4. Run the development server:
+
+```bash
+npm run dev
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
