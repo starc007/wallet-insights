@@ -1,4 +1,3 @@
-import { getTokenInfo } from "@/api/api";
 import { useDataContext } from "@/context/DataContext";
 import React, { useEffect } from "react";
 import BarLoader from "../common/BarLoader";
